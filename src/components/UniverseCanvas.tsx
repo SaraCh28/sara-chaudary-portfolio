@@ -1,338 +1,39 @@
 "use client";
 
-import React, { useRef, useEffect, useState, useMemo } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { PointMaterial, Line } from "@react-three/drei";
-import * as THREE from "three";
+import React, { useRef, useEffect, useState } from "react";
 
 interface UniverseCanvasProps {
   scrollProgress: number; // 0 to 1
 }
 
-// ─────────────────────────────────────────────────────
-// Camera Controller: moves along a 3D spline path
-// ─────────────────────────────────────────────────────
-function CameraController({ scrollProgress, lowPerf }: { scrollProgress: number; lowPerf: boolean }) {
-  const { camera } = useThree();
-  const LERP = lowPerf ? 0.18 : 0.07;
-
-  const cameraPath = [
-    { pos: [0, 0, 12], look: [0, 0, 0] },          // 0: Gateway
-    { pos: [-3.5, 1.8, 6], look: [-1, 0, 0] },      // 1: Origin
-    { pos: [0, 0, -2], look: [0, 0, -10] },          // 2: Corridor
-    { pos: [3, -1.5, -12], look: [1.2, -0.5, -16] },// 3: Museum
-    { pos: [-4, -2.5, -24], look: [-2, -1.8, -28] },// 4: Workshop
-    { pos: [0, 3.5, -36], look: [0, 0, -40] },       // 5: Library
-    { pos: [3.5, 1, -48], look: [1.5, 0.5, -52] },   // 6: Archive
-    { pos: [0, 1.5, -60], look: [0, 3, -68] },       // 7: Observatory
-    { pos: [0, 0, -78], look: [0, 0, -84] },         // 8: Portal
-  ] as const;
-
-  useFrame(() => {
-    const t = scrollProgress * 8;
-    const lowerIdx = Math.min(7, Math.floor(t));
-    const upperIdx = Math.min(8, lowerIdx + 1);
-    const ratio = t - lowerIdx;
-
-    const p1 = cameraPath[lowerIdx];
-    const p2 = cameraPath[upperIdx];
-
-    const ease = (x: number) => x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
-    const er = ease(ratio);
-
-    const targetPos = new THREE.Vector3(
-      p1.pos[0] + (p2.pos[0] - p1.pos[0]) * er,
-      p1.pos[1] + (p2.pos[1] - p1.pos[1]) * er,
-      p1.pos[2] + (p2.pos[2] - p1.pos[2]) * er
-    );
-
-    const targetLook = new THREE.Vector3(
-      p1.look[0] + (p2.look[0] - p1.look[0]) * er,
-      p1.look[1] + (p2.look[1] - p1.look[1]) * er,
-      p1.look[2] + (p2.look[2] - p1.look[2]) * er
-    );
-
-    camera.position.lerp(targetPos, LERP);
-
-    const tempMatrix = new THREE.Matrix4();
-    tempMatrix.lookAt(camera.position, targetLook, new THREE.Vector3(0, 1, 0));
-    const targetRotation = new THREE.Quaternion().setFromRotationMatrix(tempMatrix);
-    camera.quaternion.slerp(targetRotation, LERP);
-  });
-
-  return null;
+interface LightfallStreak {
+  x: number;
+  y: number;
+  length: number;
+  speed: number;
+  opacity: number;
+  width: number;
+  glow: number;
+  xOffset: number;
+  targetXOffset: number;
 }
 
-// ─────────────────────────────────────────────────────
-// Starfield
-// ─────────────────────────────────────────────────────
-function Starfield({ lowPerf }: { lowPerf: boolean }) {
-  const starsRef = useRef<THREE.Points>(null);
-  const starCount = lowPerf ? 700 : 2200;
-
-  const starPositions = useMemo(() => {
-    const arr = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(Math.random() * 2 - 1);
-      const dist = 25 + Math.random() * 80;
-      arr[i * 3]     = dist * Math.sin(phi) * Math.cos(theta);
-      arr[i * 3 + 1] = dist * Math.sin(phi) * Math.sin(theta);
-      arr[i * 3 + 2] = 20 - Math.random() * 130;
-    }
-    return arr;
-  }, [starCount]);
-
-  // Generate varying star sizes for depth
-  const starSizes = useMemo(() => {
-    const arr = new Float32Array(starCount);
-    for (let i = 0; i < starCount; i++) {
-      arr[i] = Math.random() * 0.04 + 0.01;
-    }
-    return arr;
-  }, [starCount]);
-
-  useFrame((state) => {
-    if (starsRef.current) {
-      starsRef.current.rotation.y = state.clock.getElapsedTime() * 0.018;
-      starsRef.current.rotation.z = state.clock.getElapsedTime() * 0.008;
-    }
-  });
-
-  return (
-    <points ref={starsRef}>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[starPositions, 3]} />
-      </bufferGeometry>
-      <PointMaterial
-        transparent
-        color="#e8d9be"
-        size={lowPerf ? 0.04 : 0.025}
-        sizeAttenuation
-        depthWrite={false}
-        opacity={0.45}
-      />
-    </points>
-  );
+interface EtherWave {
+  yPos: number; // Base vertical alignment
+  speed: number;
+  amplitude: number;
+  phase: number;
+  frequency: number;
+  offsetY: number; // Mouse offset
 }
 
-// ─────────────────────────────────────────────────────
-// Nebula Glow Clouds (large soft spheres with additive blending)
-// ─────────────────────────────────────────────────────
-function NebulaClouds() {
-  const clouds = useMemo(() => [
-    { pos: [-8, 4, -5] as const, color: "#3d2a1a", scale: 12 },
-    { pos: [10, -3, -18] as const, color: "#1a2a1a", scale: 14 },
-    { pos: [-5, -6, -32] as const, color: "#2a1a0e", scale: 18 },
-    { pos: [6, 5, -50] as const, color: "#0e1a2a", scale: 16 },
-    { pos: [0, 0, -70] as const, color: "#2a1a1a", scale: 22 },
-  ], []);
-
-  return (
-    <>
-      {clouds.map((c, i) => (
-        <mesh key={i} position={c.pos}>
-          <sphereGeometry args={[c.scale, 8, 8]} />
-          <meshBasicMaterial
-            color={c.color}
-            transparent
-            opacity={0.18}
-            side={THREE.BackSide}
-            depthWrite={false}
-          />
-        </mesh>
-      ))}
-    </>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// Corridor: Rotating torus arches
-// ─────────────────────────────────────────────────────
-function CorridorArches() {
-  const groupRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.children.forEach((child, i) => {
-        child.rotation.z = state.clock.getElapsedTime() * 0.04 * (i % 2 === 0 ? 1 : -1) + i * 0.8;
-      });
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={[0, 0, -8]}>
-      {[0, 1, 2, 3, 4, 5, 6, 7].map((idx) => (
-        <mesh key={idx} position={[0, 0, -idx * 3]}>
-          <torusGeometry args={[2.8, 0.018, 6, 36]} />
-          <meshBasicMaterial
-            color={idx % 3 === 0 ? "#c5a880" : idx % 3 === 1 ? "#8a7152" : "#3d2a12"}
-            wireframe
-            transparent
-            opacity={0.18 - idx * 0.01}
-          />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// Museum: Floating glass exhibit slabs
-// ─────────────────────────────────────────────────────
-function MuseumExhibits() {
-  const slab1 = useRef<THREE.Mesh>(null);
-  const slab2 = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (slab1.current) {
-      slab1.current.position.y = -1.5 + Math.sin(t * 0.8) * 0.18;
-      slab1.current.rotation.y = t * 0.18;
-    }
-    if (slab2.current) {
-      slab2.current.position.y = -1.2 + Math.cos(t * 0.65) * 0.14;
-      slab2.current.rotation.x = t * 0.12;
-      slab2.current.rotation.y = t * 0.09;
-    }
-  });
-
-  return (
-    <group position={[0, 0, -15]}>
-      <mesh ref={slab1} position={[2.5, -1.5, -2]}>
-        <boxGeometry args={[1.6, 2.4, 0.08]} />
-        <meshPhysicalMaterial transparent opacity={0.08} roughness={0.05} transmission={0.92} thickness={0.4} color="#c5a880" clearcoat={1} />
-      </mesh>
-      <mesh ref={slab2} position={[4.2, -1.2, -7]}>
-        <boxGeometry args={[1.7, 2.2, 0.12]} />
-        <meshPhysicalMaterial transparent opacity={0.07} roughness={0.1} transmission={0.88} thickness={0.5} color="#8a7152" clearcoat={0.9} />
-      </mesh>
-    </group>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// Library: Circular bookshelf
-// ─────────────────────────────────────────────────────
-function LibraryShelf() {
-  const groupRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.06;
-    }
-  });
-
-  return (
-    <group ref={groupRef} position={[0, 3, -40]}>
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => {
-        const angle = (i / 10) * Math.PI * 2;
-        const r = 4;
-        return (
-          <mesh
-            key={i}
-            position={[Math.cos(angle) * r, (i * 0.15) - 0.8, Math.sin(angle) * r]}
-            rotation={[0, -angle + Math.PI / 2, 0]}
-          >
-            <boxGeometry args={[1.1, 0.08, 0.35]} />
-            <meshBasicMaterial color="#8a7152" transparent opacity={0.1} wireframe />
-          </mesh>
-        );
-      })}
-    </group>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// Observatory: Constellation map
-// ─────────────────────────────────────────────────────
-function Observatory() {
-  const STARS = [
-    { pos: [-1.5, 2.5, 0] as const, r: 0.13, c: "#c5a880" },
-    { pos: [0, 3.5, 0] as const, r: 0.17, c: "#f3e5ab" },
-    { pos: [1.8, 2.8, -1] as const, r: 0.11, c: "#c5a880" },
-    { pos: [0.5, 1.5, 0.5] as const, r: 0.09, c: "#8a7152" },
-    { pos: [-0.5, 4.0, -0.5] as const, r: 0.08, c: "#e2cbb0" },
-  ];
-
-  const meshRefs = useRef<(THREE.Mesh | null)[]>([]);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    meshRefs.current.forEach((m, i) => {
-      if (m) {
-        m.position.y = STARS[i].pos[1] + Math.sin(t * 0.5 + i * 1.2) * 0.08;
-        const s = 1 + Math.sin(t * 1.5 + i) * 0.15;
-        m.scale.set(s, s, s);
-      }
-    });
-  });
-
-  return (
-    <group position={[0, 1.5, -68]}>
-      {STARS.map((s, i) => (
-        <mesh key={i} ref={(el) => { meshRefs.current[i] = el; }} position={s.pos}>
-          <sphereGeometry args={[s.r, 16, 16]} />
-          <meshBasicMaterial color={s.c} />
-        </mesh>
-      ))}
-      <Line
-        points={STARS.map((s) => s.pos)}
-        color="#c5a880"
-        lineWidth={0.6}
-        transparent
-        opacity={0.15}
-      />
-    </group>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// Portal: Animated singularity ring
-// ─────────────────────────────────────────────────────
-function Portal() {
-  const torusRef = useRef<THREE.Mesh>(null);
-  const innerRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (torusRef.current) {
-      torusRef.current.rotation.z = -t * 0.7;
-      const s = 1 + Math.sin(t * 2.5) * 0.07;
-      torusRef.current.scale.set(s, s, 1);
-    }
-    if (innerRef.current) {
-      innerRef.current.rotation.z = t * 0.3;
-    }
-  });
-
-  return (
-    <group position={[0, 0, -84]}>
-      {/* Outer ring */}
-      <mesh ref={torusRef}>
-        <torusGeometry args={[3.2, 0.35, 16, 72]} />
-        <meshBasicMaterial color="#c5a880" wireframe transparent opacity={0.2} />
-      </mesh>
-      {/* Middle ring */}
-      <mesh ref={innerRef}>
-        <torusGeometry args={[2.0, 0.12, 8, 48]} />
-        <meshBasicMaterial color="#8a7152" transparent opacity={0.1} />
-      </mesh>
-      {/* Dark singularity fill */}
-      <mesh position={[0, 0, -0.1]}>
-        <circleGeometry args={[3.0, 64]} />
-        <meshBasicMaterial color="#020202" transparent opacity={0.97} />
-      </mesh>
-    </group>
-  );
-}
-
-// ─────────────────────────────────────────────────────
-// Main Canvas
-// ─────────────────────────────────────────────────────
 export default function UniverseCanvas({ scrollProgress }: UniverseCanvasProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [lowPerf, setLowPerf] = useState(false);
+  const mouseRef = useRef({ x: -1000, y: -1000, active: false });
+  const scrollRef = useRef({ lastProgress: scrollProgress, speed: 0 });
 
+  // Listen to performance events
   useEffect(() => {
     const handle = (e: Event) => {
       if ((e as CustomEvent).detail?.low) setLowPerf(true);
@@ -341,32 +42,242 @@ export default function UniverseCanvas({ scrollProgress }: UniverseCanvasProps) 
     return () => window.removeEventListener("low-performance-mode", handle);
   }, []);
 
-  return (
-    <div className="fixed inset-0 w-full h-full z-0" style={{ background: "#070707" }}>
-      <Canvas
-        camera={{ position: [0, 0, 12], fov: 44, near: 0.1, far: 180 }}
-        gl={{
-          antialias: !lowPerf,
-          powerPreference: "high-performance",
-          alpha: false,
-        }}
-        dpr={lowPerf ? 1 : [1, 1.5]}
-      >
-        {/* Lighting */}
-        <ambientLight intensity={0.15} />
-        <directionalLight position={[5, 10, 5]} intensity={0.3} color="#f3e5ab" />
-        <pointLight position={[0, 0, -8]} intensity={1.0} color="#c5a880" distance={18} decay={2} />
-        <pointLight position={[0, 0, -84]} intensity={1.5} color="#c5a880" distance={20} decay={2} />
+  // Update scroll speed tracking
+  useEffect(() => {
+    const diff = Math.abs(scrollProgress - scrollRef.current.lastProgress);
+    scrollRef.current.speed = Math.min(15, scrollRef.current.speed + diff * 35);
+    scrollRef.current.lastProgress = scrollProgress;
+  }, [scrollProgress]);
 
-        <CameraController scrollProgress={scrollProgress} lowPerf={lowPerf} />
-        <Starfield lowPerf={lowPerf} />
-        {!lowPerf && <NebulaClouds />}
-        <CorridorArches />
-        <MuseumExhibits />
-        <LibraryShelf />
-        <Observatory />
-        <Portal />
-      </Canvas>
-    </div>
-  );
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = 0;
+    let height = 0;
+    let time = 0;
+
+    // Initialize Lightfall Streaks
+    const streakCount = lowPerf ? 35 : 110;
+    const streaks: LightfallStreak[] = [];
+
+    const createStreak = (initialY = false): LightfallStreak => {
+      const len = 30 + Math.random() * 90;
+      return {
+        x: Math.random() * window.innerWidth,
+        y: initialY ? Math.random() * window.innerHeight : -len - 10,
+        length: len,
+        speed: 1.2 + Math.random() * 3.5,
+        opacity: 0.04 + Math.random() * 0.22,
+        width: 0.6 + Math.random() * 1.4,
+        glow: 0,
+        xOffset: 0,
+        targetXOffset: 0,
+      };
+    };
+
+    // Initialize Ether Waves
+    const waves: EtherWave[] = [
+      { yPos: 0.25, speed: 0.0006, amplitude: 50, phase: 0, frequency: 0.0018, offsetY: 0 },
+      { yPos: 0.5, speed: -0.0004, amplitude: 80, phase: Math.PI / 3, frequency: 0.0012, offsetY: 0 },
+      { yPos: 0.75, speed: 0.0008, amplitude: 60, phase: Math.PI / 1.5, frequency: 0.002, offsetY: 0 },
+    ];
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+
+      // Re-populate streaks on resize to match new width
+      streaks.length = 0;
+      for (let i = 0; i < streakCount; i++) {
+        streaks.push(createStreak(true));
+      }
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Mouse Tracking Event Listeners
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
+      mouseRef.current.active = true;
+    };
+
+    const handleMouseLeave = () => {
+      mouseRef.current.active = false;
+      mouseRef.current.x = -1000;
+      mouseRef.current.y = -1000;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
+
+    // Main animation loop
+    const render = () => {
+      time += 0.01;
+      // Decay scroll speed over time
+      scrollRef.current.speed *= 0.94;
+
+      // Base scroll factor driven by active scroll speed
+      const scrollFactor = 1 + scrollRef.current.speed * 1.5;
+
+      // Clear with dark luxury background
+      ctx.fillStyle = "#030303";
+      ctx.fillRect(0, 0, width, height);
+
+      // ──────────────────────────────────────────────────────────
+      // LAYER 1: Liquid Ether (Ambient Fluid Ribbons)
+      // ──────────────────────────────────────────────────────────
+      waves.forEach((wave, wIdx) => {
+        wave.phase += wave.speed * (1 + scrollRef.current.speed * 0.2);
+
+        // Smoothly interpolate mouse influence
+        if (mouseRef.current.active) {
+          const targetOffset = (mouseRef.current.y - height * wave.yPos) * 0.08;
+          wave.offsetY += (targetOffset - wave.offsetY) * 0.05;
+        } else {
+          wave.offsetY += (0 - wave.offsetY) * 0.05;
+        }
+
+        const centerY = height * wave.yPos + wave.offsetY;
+
+        // Draw multiple parallel strands per ribbon for depth
+        const strandCount = lowPerf ? 2 : 5;
+        for (let s = 0; s < strandCount; s++) {
+          const strandOffset = s * 6;
+          const strandOpacity = (0.012 - s * 0.002) * (lowPerf ? 1 : 1.3);
+
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(197, 168, 128, ${strandOpacity})`;
+          ctx.lineWidth = 1 + (s * 0.5);
+
+          for (let x = 0; x < width + 10; x += 15) {
+            // Complex multi-sine function simulating liquid noise
+            const noiseVal =
+              Math.sin(x * wave.frequency + wave.phase + strandOffset * 0.05) * wave.amplitude +
+              Math.cos(x * 0.003 - wave.phase * 0.7) * (wave.amplitude * 0.35) +
+              Math.sin(x * 0.0006 + wave.phase * 1.4) * (wave.amplitude * 0.2);
+
+            const y = centerY + noiseVal;
+
+            if (x === 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+          ctx.stroke();
+        }
+      });
+
+      // ──────────────────────────────────────────────────────────
+      // LAYER 2: Lightfall (Falling Golden Streaks)
+      // ──────────────────────────────────────────────────────────
+      ctx.lineCap = "round";
+
+      streaks.forEach((streak, idx) => {
+        // Falling motion
+        streak.y += streak.speed * scrollFactor;
+
+        // X deflection physics around mouse
+        let dx = 0;
+        let dy = 0;
+        let dist = 9999;
+
+        if (mouseRef.current.active) {
+          dx = (streak.x + streak.xOffset) - mouseRef.current.x;
+          dy = streak.y - mouseRef.current.y;
+          dist = Math.sqrt(dx * dx + dy * dy);
+        }
+
+        const mouseInfluenceRadius = 180;
+        if (dist < mouseInfluenceRadius) {
+          const force = (mouseInfluenceRadius - dist) / mouseInfluenceRadius;
+          // Deflect horizontally
+          streak.targetXOffset += (dx > 0 ? 1 : -1) * force * 4.5;
+          // Accelerate downwards
+          streak.y += force * 3.5;
+          // Increase brightness/glow
+          streak.glow = Math.min(1, streak.glow + 0.08);
+        } else {
+          streak.glow = Math.max(0, streak.glow - 0.02);
+        }
+
+        // Apply inertia to offsets
+        streak.xOffset += (streak.targetXOffset - streak.xOffset) * 0.08;
+        streak.targetXOffset *= 0.94; // Decay target force
+
+        // Draw the falling streak
+        const opacity = Math.min(0.85, streak.opacity * (1 + streak.glow * 2.2));
+        const startX = streak.x + streak.xOffset;
+        const startY = streak.y;
+        const endY = streak.y - streak.length;
+
+        const grad = ctx.createLinearGradient(startX, startY, startX, endY);
+        // Gold to transparent gradient
+        grad.addColorStop(0, `rgba(197, 168, 128, ${opacity})`);
+        grad.addColorStop(0.3, `rgba(197, 168, 128, ${opacity * 0.5})`);
+        grad.addColorStop(1, "rgba(197, 168, 128, 0)");
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = streak.width * (1 + streak.glow * 0.5);
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(startX, endY);
+        ctx.stroke();
+
+        // Recycle streak if it exits the bottom boundary
+        if (streak.y - streak.length > height) {
+          streaks[idx] = createStreak(false);
+        }
+      });
+
+      // ──────────────────────────────────────────────────────────
+      // LAYER 3: Soft Mouse Glow Layer
+      // ──────────────────────────────────────────────────────────
+      if (mouseRef.current.active && !lowPerf) {
+        ctx.beginPath();
+        const radGrad = ctx.createRadialGradient(
+          mouseRef.current.x,
+          mouseRef.current.y,
+          0,
+          mouseRef.current.x,
+          mouseRef.current.y,
+          260
+        );
+        // Subtly illuminate gold elements near cursor
+        radGrad.addColorStop(0, "rgba(197, 168, 128, 0.045)");
+        radGrad.addColorStop(0.5, "rgba(197, 168, 128, 0.015)");
+        radGrad.addColorStop(1, "rgba(197, 168, 128, 0)");
+
+        ctx.fillStyle = radGrad;
+        ctx.arc(mouseRef.current.x, mouseRef.current.y, 260, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    // Cleanups
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [lowPerf]);
+
+  return <canvas ref={canvasRef} className="fixed inset-0 w-full h-full z-0 block pointer-events-none" />;
 }

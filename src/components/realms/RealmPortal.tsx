@@ -82,10 +82,14 @@ export default function RealmPortal() {
   };
 
   const inputClass =
-    "w-full bg-luxury-white/[0.03] border border-luxury-gold/12 focus:border-luxury-gold/60 hover:border-luxury-gold/25 rounded-sm px-4 py-3 text-xs text-luxury-white outline-none transition-all duration-300 placeholder-luxury-muted/40 font-sans";
+    "w-full bg-luxury-white/[0.03] border border-luxury-gold/12 focus:border-luxury-gold/60 hover:border-luxury-gold/25 rounded-sm px-4 py-3 text-xs text-luxury-white outline-none transition-all duration-300 placeholder-luxury-muted/40 font-mono";
 
   return (
-    <div className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-6xl mx-auto relative z-10 flex flex-col justify-center select-none">
+    <section 
+      id="contact" 
+      aria-label="Contact Gateway Portal"
+      className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-6xl mx-auto relative z-10 flex flex-col justify-center select-none"
+    >
 
       {/* Ambient portal glow */}
       <div
@@ -93,6 +97,7 @@ export default function RealmPortal() {
         style={{
           background: "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(197,168,128,0.07) 0%, transparent 65%)"
         }}
+        aria-hidden="true"
       />
 
       {/* Realm Title */}
@@ -124,7 +129,7 @@ export default function RealmPortal() {
         >
           <div className="glass-panel p-6 sm:p-10 rounded-sm relative overflow-hidden">
             {/* Top accent glow */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-luxury-gold/40 to-transparent" />
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-luxury-gold/40 to-transparent" aria-hidden="true" />
 
             <h3 className="font-serif italic font-light text-3xl sm:text-4xl text-luxury-white mb-2">
               Let's Build Something Memorable
@@ -136,7 +141,7 @@ export default function RealmPortal() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" className="font-display text-[8px] tracking-[0.25em] text-luxury-gold uppercase font-bold">
+                  <label htmlFor="name" className="font-mono text-[9px] tracking-[0.05em] text-luxury-gold uppercase font-semibold">
                     Your Name <span className="text-luxury-muted">*</span>
                   </label>
                   <input
@@ -147,12 +152,13 @@ export default function RealmPortal() {
                     onChange={handleChange}
                     required
                     placeholder="Full name"
+                    autoComplete="name"
                     className={inputClass}
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="font-display text-[8px] tracking-[0.25em] text-luxury-gold uppercase font-bold">
+                  <label htmlFor="email" className="font-mono text-[9px] tracking-[0.05em] text-luxury-gold uppercase font-semibold">
                     Email Address <span className="text-luxury-muted">*</span>
                   </label>
                   <input
@@ -163,13 +169,14 @@ export default function RealmPortal() {
                     onChange={handleChange}
                     required
                     placeholder="your@email.com"
+                    autoComplete="email"
                     className={inputClass}
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="subject" className="font-display text-[8px] tracking-[0.25em] text-luxury-gold uppercase font-bold">
+                <label htmlFor="subject" className="font-mono text-[9px] tracking-[0.05em] text-luxury-gold uppercase font-semibold">
                   Subject
                 </label>
                 <input
@@ -179,12 +186,13 @@ export default function RealmPortal() {
                   value={formState.subject}
                   onChange={handleChange}
                   placeholder="Opportunity, project, or just a hello"
+                  autoComplete="off"
                   className={inputClass}
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="font-display text-[8px] tracking-[0.25em] text-luxury-gold uppercase font-bold">
+                <label htmlFor="message" className="font-mono text-[9px] tracking-[0.05em] text-luxury-gold uppercase font-semibold">
                   Message <span className="text-luxury-muted">*</span>
                 </label>
                 <textarea
@@ -204,9 +212,9 @@ export default function RealmPortal() {
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 text-[10px] text-amber-400 font-display tracking-[0.1em]"
+                  className="flex items-center gap-2 text-[10px] text-amber-400 font-mono tracking-[0.05em]"
                 >
-                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                   {error}
                 </motion.div>
               )}
@@ -215,12 +223,12 @@ export default function RealmPortal() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="font-display font-semibold text-[10px] tracking-[0.28em] bg-luxury-gold hover:bg-luxury-gold-glow text-luxury-bg py-4 rounded-sm transition-all duration-300 flex items-center justify-center gap-2.5 mt-1 shadow-lg shadow-luxury-gold/15 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="font-mono font-semibold text-[10px] tracking-[0.1em] bg-luxury-gold hover:bg-luxury-gold-glow text-luxury-bg py-4 rounded-sm transition-all duration-300 flex items-center justify-center gap-2.5 mt-1 shadow-lg shadow-luxury-gold/15 disabled:opacity-60 disabled:cursor-not-allowed"
                 data-cursor="contact"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full border-2 border-luxury-bg border-t-transparent animate-spin" />
+                    <span className="w-3 h-3 rounded-full border-2 border-luxury-bg border-t-transparent animate-spin" aria-hidden="true" />
                     TRANSMITTING...
                   </span>
                 ) : isSent ? (
@@ -245,10 +253,10 @@ export default function RealmPortal() {
           transition={{ duration: 0.9, delay: 0.15 }}
           className="lg:col-span-5 flex flex-col justify-between glass-panel p-6 sm:p-10 rounded-sm relative overflow-hidden"
         >
-          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-luxury-bronze/40 to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-luxury-bronze/40 to-transparent" aria-hidden="true" />
 
           <div>
-            <span className="font-display text-[8.5px] tracking-[0.3em] text-luxury-gold uppercase font-bold block mb-4">
+            <span className="font-mono text-[9px] tracking-[0.1em] text-luxury-gold uppercase font-bold block mb-4">
               SIGNAL GATEWAY
             </span>
             <p className="font-sans font-light text-xs leading-relaxed text-luxury-muted mb-10">
@@ -265,15 +273,16 @@ export default function RealmPortal() {
                   rel={download ? undefined : "noopener noreferrer"}
                   download={download}
                   className="flex items-center gap-4 group cursor-pointer"
+                  aria-label={`${label}: ${value}`}
                 >
                   <div className="p-3 border border-luxury-gold/15 group-hover:border-luxury-gold/50 rounded-sm bg-luxury-white/5 transition-all duration-300 group-hover:bg-luxury-white/8 shrink-0">
-                    <Icon className="w-4 h-4 text-luxury-gold" />
+                    <Icon className="w-4 h-4 text-luxury-gold" aria-hidden="true" />
                   </div>
                   <div>
-                    <span className="font-display text-[7.5px] tracking-[0.18em] text-luxury-muted block uppercase mb-0.5">
+                    <span className="font-mono text-[8px] tracking-[0.05em] text-luxury-muted block uppercase mb-0.5">
                       {label}
                     </span>
-                    <span className="font-sans font-light text-xs text-luxury-white group-hover:text-luxury-gold transition-colors duration-300">
+                    <span className="font-mono text-[11px] text-luxury-white group-hover:text-luxury-gold transition-colors duration-300">
                       {value}
                     </span>
                   </div>
@@ -283,13 +292,13 @@ export default function RealmPortal() {
           </div>
 
           {/* Footer signature */}
-          <div className="border-t border-luxury-gold/10 pt-6 mt-8 flex items-center justify-between text-[9px] font-display text-luxury-muted tracking-[0.18em]">
+          <div className="border-t border-luxury-gold/10 pt-6 mt-8 flex items-center justify-between text-[9px] font-mono text-luxury-muted tracking-[0.05em]">
             <span>DESIGNED BY SARA CHAUDARY</span>
             <span>© 2026</span>
           </div>
         </motion.div>
 
       </div>
-    </div>
+    </section>
   );
 }

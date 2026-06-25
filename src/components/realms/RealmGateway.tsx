@@ -36,10 +36,15 @@ export default function RealmGateway() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center relative overflow-hidden select-none">
+    <section
+      id="gateway"
+      aria-label="Portfolio Introduction Gateway"
+      className="min-h-screen flex flex-col justify-center relative overflow-hidden select-none"
+    >
+      <h1 className="sr-only">Sara Chaudary | Software Engineer &amp; Product Developer Portfolio</h1>
 
       {/* Ambient background radial */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+      <div className="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full"
           style={{
             background: "radial-gradient(ellipse at center, rgba(197,168,128,0.055) 0%, transparent 65%)"
@@ -63,13 +68,13 @@ export default function RealmGateway() {
           className="flex items-center gap-4 mb-10"
         >
           <div className="w-12 h-[1px] bg-luxury-gold/50" />
-          <span className="font-display font-semibold text-[9px] tracking-[0.4em] text-luxury-gold uppercase">
-            Digital Portfolio · 2026
+          <span className="font-mono text-[9px] tracking-[0.3em] text-luxury-gold uppercase">
+            WORKSPACE // SRC // 2026
           </span>
         </motion.div>
 
         {/* Giant name typography with staggered letter animation */}
-        <div className="overflow-hidden" ref={nameRef}>
+        <div className="overflow-hidden" ref={nameRef} aria-hidden="true">
           <motion.div
             variants={titleContainerVariants}
             initial="hidden"
@@ -107,11 +112,21 @@ export default function RealmGateway() {
               Software Engineer
             </h2>
             <p className="font-sans font-medium text-lg text-luxury-white leading-relaxed max-w-xl">
-              Building AI-Powered Web & Mobile Products
+              Building AI-Powered Web &amp; Mobile Products
             </p>
-            <p className="font-display text-[10px] tracking-[0.2em] text-luxury-muted uppercase">
+            <p className="font-mono text-[9px] tracking-[0.15em] text-luxury-muted uppercase leading-relaxed">
               React • Flutter • AI Integrations • Interactive Digital Experiences
             </p>
+            {/* Location + availability */}
+            <div className="flex items-center gap-3 mt-1">
+              <span className="font-mono text-[9px] tracking-[0.08em] text-luxury-muted/80">
+                📍 Lahore, PK
+              </span>
+              <span className="text-luxury-gold/30">·</span>
+              <span className="font-mono text-[9px] tracking-[0.08em] text-emerald-400/80">
+                Open to relocation &amp; remote
+              </span>
+            </div>
           </motion.div>
 
           {/* Stat indicators */}
@@ -123,12 +138,12 @@ export default function RealmGateway() {
           >
             {[
               { label: "Projects Shipped", value: "06" },
-              { label: "Realms to Explore", value: "08" },
               { label: "Technologies", value: "15+" },
+              { label: "Graduating", value: "2026" },
             ].map((stat) => (
               <div key={stat.label} className="flex flex-col items-start md:items-center">
-                <span className="font-serif italic text-3xl text-luxury-gold leading-none">{stat.value}</span>
-                <span className="font-display text-[8px] tracking-[0.25em] text-luxury-muted uppercase mt-1">{stat.label}</span>
+                <span className="font-mono text-3xl text-luxury-gold leading-none font-medium">{stat.value}</span>
+                <span className="font-mono text-[8px] tracking-[0.15em] text-luxury-muted uppercase mt-1">{stat.label}</span>
               </div>
             ))}
           </motion.div>
@@ -149,11 +164,11 @@ export default function RealmGateway() {
           transition={{ duration: 1, delay: 2.4 }}
           className="mt-6 flex items-center justify-between"
         >
-          <span className="font-display text-[8px] tracking-[0.3em] text-luxury-muted/100 uppercase hidden sm:block">
-            THE SARA UNIVERSE · EST. 2026
+          <span className="font-mono text-[8px] tracking-[0.2em] text-luxury-muted/80 uppercase hidden sm:block">
+            SARA_CHAUDARY // 2026
           </span>
-          <span className="font-display text-[8px] tracking-[0.25em] text-luxury-muted/10 uppercase font-mono hidden md:block">
-            48.8°N · 2.3°E · ORBITAL LAYER 01
+          <span className="font-mono text-[10px] tracking-[0.12em] text-luxury-muted/100 hidden md:block">
+            BSc Software Engineering · Superior University · Lahore
           </span>
         </motion.div>
       </div>
@@ -166,14 +181,14 @@ export default function RealmGateway() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-10"
         data-cursor="explore"
       >
-        <span className="font-display font-bold text-[8px] tracking-[0.35em] text-luxury-gold uppercase">
+        <span className="font-mono font-semibold text-[8px] tracking-[0.25em] text-luxury-gold uppercase">
           SCROLL TO EXPLORE
         </span>
-        <div className="flex flex-col gap-1 items-center">
+        <div className="flex flex-col gap-1 items-center" aria-hidden="true">
           <div className="w-[1px] h-6 bg-gradient-to-b from-luxury-gold/60 to-transparent" />
           <ArrowDown className="w-3.5 h-3.5 text-luxury-gold" />
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 }

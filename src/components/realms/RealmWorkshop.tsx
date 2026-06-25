@@ -66,7 +66,11 @@ export default function RealmWorkshop() {
   ];
 
   return (
-    <div className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none">
+    <section 
+      id="workshop" 
+      aria-label="Development Process Workshop"
+      className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none"
+    >
       {/* Realm Title */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -86,21 +90,28 @@ export default function RealmWorkshop() {
       {/* Workshop Layout Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-4xl mx-auto w-full">
         {/* Left Side: Step Selectors */}
-        <div className="lg:col-span-4 flex flex-row lg:flex-col justify-between lg:justify-center gap-2 lg:gap-4 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scrollbar-none border-b lg:border-b-0 lg:border-r border-luxury-gold/15 pr-0 lg:pr-6">
+        <div 
+          className="lg:col-span-4 flex flex-row lg:flex-col justify-between lg:justify-center gap-2 lg:gap-4 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scrollbar-none border-b lg:border-b-0 lg:border-r border-luxury-gold/15 pr-0 lg:pr-6"
+          role="tablist"
+          aria-label="Development Phases"
+        >
           {steps.map((step) => {
             const IconComponent = step.icon;
             const isActive = activeStep === step.id;
             return (
               <button
                 key={step.id}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls="phase-details"
                 onClick={() => setActiveStep(step.id)}
-                className={`flex items-center gap-3 py-2 px-3 sm:px-4 rounded-sm transition-all duration-300 font-display text-[10px] tracking-[0.2em] uppercase text-left whitespace-nowrap lg:whitespace-normal w-full border ${
+                className={`flex items-center gap-3 py-2 px-3 sm:px-4 rounded-sm transition-all duration-300 font-mono text-[10px] tracking-[0.1em] uppercase text-left whitespace-nowrap lg:whitespace-normal w-full border ${
                   isActive
-                    ? "bg-luxury-gold text-luxury-bg border-luxury-gold shadow-lg shadow-luxury-gold/10"
+                    ? "bg-luxury-gold text-luxury-bg border-luxury-gold shadow-lg shadow-luxury-gold/10 font-bold"
                     : "text-luxury-muted hover:text-luxury-white border-transparent hover:border-luxury-gold/20 bg-luxury-white/5"
                 }`}
               >
-                <IconComponent className="w-4 h-4 shrink-0" />
+                <IconComponent className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span className="hidden sm:inline">{step.name}</span>
               </button>
             );
@@ -108,7 +119,11 @@ export default function RealmWorkshop() {
         </div>
 
         {/* Right Side: Step Details */}
-        <div className="lg:col-span-8 flex flex-col justify-between min-h-[300px] lg:pl-6">
+        <div 
+          id="phase-details"
+          role="tabpanel"
+          className="lg:col-span-8 flex flex-col justify-between min-h-[300px] lg:pl-6"
+        >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeStep}
@@ -120,8 +135,8 @@ export default function RealmWorkshop() {
             >
               <div>
                 {/* Index Indicator */}
-                <span className="font-display text-[9px] tracking-[0.3em] text-luxury-gold font-bold uppercase block mb-1">
-                  PHASE 0{activeStep + 1}
+                <span className="font-mono text-[9px] tracking-[0.15em] text-luxury-gold font-bold uppercase block mb-1">
+                  PHASE_0{activeStep + 1}
                 </span>
 
                 <h3 className="font-serif italic font-light text-3xl sm:text-4xl text-luxury-white mb-2">
@@ -144,8 +159,8 @@ export default function RealmWorkshop() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {steps[activeStep].actions.map((action, idx) => (
                     <div key={idx} className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" />
-                      <span className="font-display text-[9px] tracking-[0.1em] text-luxury-muted uppercase">
+                      <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold" aria-hidden="true" />
+                      <span className="font-mono text-[9px] tracking-[0.05em] text-luxury-muted uppercase">
                         {action}
                       </span>
                     </div>
@@ -156,6 +171,6 @@ export default function RealmWorkshop() {
           </AnimatePresence>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

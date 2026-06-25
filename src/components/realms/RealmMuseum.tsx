@@ -191,7 +191,11 @@ export default function RealmMuseum() {
   }, [activeProject]);
 
   return (
-    <div className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-7xl mx-auto relative z-10 flex flex-col justify-center select-none">
+    <section 
+      id="projects" 
+      aria-label="Museum Project Exhibits"
+      className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-7xl mx-auto relative z-10 flex flex-col justify-center select-none"
+    >
 
       {/* Realm Title */}
       <motion.div
@@ -218,14 +222,15 @@ export default function RealmMuseum() {
         {PROJECTS.map((project, projectIdx) => {
           const Icon = project.categoryIcon;
           return (
-            <motion.div
+            <motion.button
               key={project.id}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.85, delay: projectIdx * 0.12 }}
               onClick={() => setActiveProject(project)}
-              className="glass-panel glass-panel-hover p-8 rounded-sm cursor-pointer transition-all duration-500 group flex flex-col justify-between min-h-[420px] relative overflow-hidden"
+              className="glass-panel glass-panel-hover p-8 rounded-sm cursor-pointer transition-all duration-500 group flex flex-col justify-between min-h-[420px] relative overflow-hidden text-left bg-transparent w-full"
+              aria-label={`Open case study for ${project.title}: ${project.subtitle}`}
               data-cursor="inspect"
             >
               {/* Subtle corner accent */}
@@ -234,24 +239,25 @@ export default function RealmMuseum() {
                 style={{
                   background: `radial-gradient(ellipse at top right, ${project.accentColor}14 0%, transparent 60%)`,
                 }}
+                aria-hidden="true"
               />
 
               {/* Header row */}
-              <div>
+              <div className="w-full">
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex items-center gap-2">
                     <Icon className="w-3.5 h-3.5 text-luxury-gold" />
-                    <span className="font-display text-[10.5px] tracking-[0.25em] text-luxury-gold uppercase border border-luxury-gold/20 px-2.5 py-0.5 rounded-sm">
+                    <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.05em] text-luxury-gold uppercase border border-luxury-gold/20 px-2 py-0.5 rounded-sm">
                       {project.category}
                     </span>
                   </div>
-                  <span className="font-serif italic text-xs sm:text-sm text-luxury-muted">
+                  <span className="font-mono text-xs sm:text-sm text-luxury-muted">
                     {project.exhibitLabel}
                   </span>
                 </div>
 
                 {/* Year + title */}
-                <span className="font-display text-[10px] tracking-[0.2em] text-luxury-muted/90 uppercase block mb-2">{project.year}</span>
+                <span className="font-mono text-[9.5px] tracking-[0.1em] text-luxury-muted/90 uppercase block mb-2">{project.year}</span>
                 <h3 className="font-serif italic font-light text-5xl text-luxury-white group-hover:text-luxury-gold transition-colors duration-500 mb-2">
                   {project.title}
                 </h3>
@@ -266,16 +272,16 @@ export default function RealmMuseum() {
               </div>
 
               {/* Footer row */}
-              <div>
+              <div className="w-full">
                 {/* Tech badges */}
                 <div className="flex flex-wrap gap-1.5 mb-6">
                   {project.tech.slice(0, 5).map((tech) => (
-                    <span key={tech} className="font-display text-[9px] sm:text-[10.5px] tracking-[0.1em] text-luxury-muted/90 bg-luxury-white/5 border border-luxury-white/5 px-2 py-0.5 rounded-sm">
+                    <span key={tech} className="font-mono text-[9px] sm:text-[10px] tracking-[0.05em] text-luxury-muted/90 bg-luxury-white/5 border border-luxury-white/5 px-2 py-0.5 rounded-sm">
                       {tech}
                     </span>
                   ))}
                   {project.tech.length > 5 && (
-                    <span className="font-display text-[9px] sm:text-[10px] tracking-[0.1em] text-luxury-gold px-1 py-0.5">
+                    <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.05em] text-luxury-gold px-1 py-0.5">
                       +{project.tech.length - 5} MORE
                     </span>
                   )}
@@ -288,10 +294,11 @@ export default function RealmMuseum() {
                   <div
                     className="w-1.5 h-1.5 rounded-full opacity-40 group-hover:opacity-100 transition-opacity duration-300"
                     style={{ backgroundColor: project.accentColor }}
+                    aria-hidden="true"
                   />
                 </div>
               </div>
-            </motion.div>
+            </motion.button>
           );
         })}
       </div>
@@ -319,6 +326,9 @@ export default function RealmMuseum() {
               exit={{ x: "100%", opacity: 0 }}
               transition={{ type: "spring", damping: 28, stiffness: 180 }}
               className="relative w-full max-w-2xl h-full glass-panel-bright rounded-sm shadow-2xl p-6 sm:p-10 overflow-y-auto scrollbar-none flex flex-col z-10"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="drawer-title"
             >
               {/* Accent top bar */}
               <div
@@ -326,13 +336,14 @@ export default function RealmMuseum() {
                 style={{
                   background: `linear-gradient(to right, transparent, ${activeProject.accentColor}80, transparent)`
                 }}
+                aria-hidden="true"
               />
 
               {/* Header */}
               <div className="flex justify-between items-center mb-8 flex-shrink-0">
                 <div className="flex items-center gap-2 text-luxury-gold">
                   <Code className="w-4 h-4" />
-                  <span className="font-display text-xs tracking-[0.25em] uppercase font-bold text-luxury-gold">
+                  <span className="font-mono text-xs tracking-[0.05em] uppercase font-bold text-luxury-gold">
                     {activeProject.category}
                   </span>
                 </div>
@@ -340,6 +351,7 @@ export default function RealmMuseum() {
                   onClick={() => setActiveProject(null)}
                   className="text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-2 border border-luxury-white/5 hover:border-luxury-gold/30 rounded-full"
                   title="Close"
+                  aria-label="Close project details drawer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -347,8 +359,8 @@ export default function RealmMuseum() {
 
               {/* Project meta */}
               <div className="flex-shrink-0">
-                <span className="font-display text-[10px] sm:text-xs tracking-[0.25em] text-luxury-muted uppercase">{activeProject.year}</span>
-                <h3 className="font-serif italic font-light text-5xl sm:text-6xl text-luxury-white mt-1 mb-2 leading-none">
+                <span className="font-mono text-[10px] sm:text-xs tracking-[0.1em] text-luxury-muted uppercase">{activeProject.year}</span>
+                <h3 id="drawer-title" className="font-serif italic font-light text-5xl sm:text-6xl text-luxury-white mt-1 mb-2 leading-none">
                   {activeProject.title}
                 </h3>
                 <p className="font-display text-xs sm:text-sm tracking-[0.2em] text-luxury-gold uppercase mb-6">
@@ -367,7 +379,7 @@ export default function RealmMuseum() {
                   </div>
                   <div>
                     <span className="text-luxury-white font-medium block">Stack</span>
-                    {activeProject.tech.slice(0, 3).join(", ")}
+                    <span className="font-mono text-xs text-luxury-muted">{activeProject.tech.slice(0, 3).join(", ")}</span>
                   </div>
                 </div>
               </div>
@@ -397,7 +409,7 @@ export default function RealmMuseum() {
               <div className="flex-shrink-0 flex flex-col sm:flex-row gap-4 items-center border-t border-luxury-gold/10 pt-6 mt-8">
                 <div className="flex flex-wrap gap-1.5 flex-1">
                   {activeProject.tech.map((t) => (
-                    <span key={t} className="font-display text-[9px] sm:text-xs tracking-[0.08em] text-luxury-white bg-luxury-white/5 border border-luxury-white/5 px-2 py-0.5 rounded-sm">
+                    <span key={t} className="font-mono text-[9px] sm:text-xs tracking-[0.05em] text-luxury-white bg-luxury-white/5 border border-luxury-white/5 px-2 py-0.5 rounded-sm">
                       {t}
                     </span>
                   ))}
@@ -407,7 +419,8 @@ export default function RealmMuseum() {
                     href={activeProject.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-display font-semibold text-xs tracking-[0.2em] text-luxury-bg bg-luxury-gold hover:bg-luxury-gold-glow px-4 py-2.5 rounded-sm transition-all duration-300 flex items-center gap-2 whitespace-nowrap justify-center shadow-lg shadow-luxury-gold/15"
+                    className="font-mono font-semibold text-xs tracking-[0.1em] text-luxury-bg bg-luxury-gold hover:bg-luxury-gold-glow px-4 py-2.5 rounded-sm transition-all duration-300 flex items-center gap-2 whitespace-nowrap justify-center shadow-lg shadow-luxury-gold/15"
+                    aria-label={`View GitHub repository for ${activeProject.title}`}
                   >
                     VIEW REPOSITORY <ExternalLink className="w-3.5 h-3.5" />
                   </a>
@@ -417,6 +430,6 @@ export default function RealmMuseum() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }

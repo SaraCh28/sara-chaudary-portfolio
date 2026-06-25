@@ -70,7 +70,11 @@ export default function RealmCorridor() {
   }, [activeItem]);
 
   return (
-    <div className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-6xl mx-auto relative z-10 flex flex-col justify-center select-none">
+    <section 
+      id="experience" 
+      aria-label="Professional Experience Exhibits"
+      className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-6xl mx-auto relative z-10 flex flex-col justify-center select-none"
+    >
       
       {/* Realm Title */}
       <motion.div
@@ -95,14 +99,15 @@ export default function RealmCorridor() {
       {/* Two Illuminated Exhibits Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 max-w-4xl mx-auto w-full items-stretch">
         {EXPERIENCES.map((item, idx) => (
-          <motion.div
+          <motion.button
             key={item.id}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: idx * 0.2 }}
             onClick={() => setActiveItem(item)}
-            className="group relative glass-panel rounded-sm cursor-pointer p-8 sm:p-10 flex flex-col justify-between min-h-[380px] overflow-hidden transition-all duration-500"
+            className="group relative text-left w-full glass-panel rounded-sm cursor-pointer p-8 sm:p-10 flex flex-col justify-between min-h-[380px] overflow-hidden transition-all duration-500 bg-transparent"
+            aria-label={`Open exhibit details for ${item.role} at ${item.company}`}
             style={{
               // Custom inline styles for spotlight and red hover glow custom properties
               backgroundImage: `radial-gradient(circle at 50% 0%, ${item.spotlightColor} 0%, transparent 60%)`,
@@ -113,23 +118,23 @@ export default function RealmCorridor() {
             }}
           >
             {/* Visual spotlight cone indicator */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-luxury-gold/5 blur-3xl pointer-events-none group-hover:bg-red-500/5 transition-all duration-500" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-luxury-gold/5 blur-3xl pointer-events-none group-hover:bg-red-500/5 transition-all duration-500" aria-hidden="true" />
             
             {/* Spotlight Accent Dot */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-luxury-gold gold-glow group-hover:bg-red-500 group-hover:shadow-[0_0_12px_#ef4444] transition-all duration-500" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-luxury-gold gold-glow group-hover:bg-red-500 group-hover:shadow-[0_0_12px_#ef4444] transition-all duration-500" aria-hidden="true" />
 
             {/* Exhibit Metadata */}
-            <div>
+            <div className="w-full">
               <div className="flex justify-between items-center mb-8">
-                <span className="font-display text-[9px] tracking-[0.25em] text-luxury-gold uppercase border border-luxury-gold/25 px-2 py-0.5 rounded-sm">
+                <span className="font-mono text-[9px] tracking-[0.1em] text-luxury-gold uppercase border border-luxury-gold/25 px-2 py-0.5 rounded-sm">
                   {item.exhibitNumber}
                 </span>
-                <span className="font-serif italic text-xs text-luxury-muted">
+                <span className="font-mono text-xs text-luxury-muted">
                   {item.period}
                 </span>
               </div>
 
-              <span className="font-display text-[8px] tracking-[0.2em] text-luxury-muted uppercase block mb-1">
+              <span className="font-mono text-[9px] tracking-[0.1em] text-luxury-muted uppercase block mb-1">
                 {item.company}
               </span>
               <h3 className="font-serif italic font-light text-3xl sm:text-4xl text-luxury-white mb-4 group-hover:text-luxury-gold transition-colors duration-300">
@@ -143,13 +148,13 @@ export default function RealmCorridor() {
             </div>
 
             {/* Tap to open signifier */}
-            <div className="border-t border-luxury-gold/10 pt-5 mt-6 flex items-center justify-between">
+            <div className="border-t border-luxury-gold/10 pt-5 mt-6 flex items-center justify-between w-full">
               <span className="font-display font-semibold text-[9px] tracking-[0.2em] text-luxury-gold group-hover:text-luxury-white transition-colors duration-300">
                 OPEN EXHIBIT CASE →
               </span>
-              <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold opacity-50 group-hover:opacity-100 group-hover:bg-red-500 transition-all duration-300" />
+              <div className="w-1.5 h-1.5 rounded-full bg-luxury-gold opacity-50 group-hover:opacity-100 group-hover:bg-red-500 transition-all duration-300" aria-hidden="true" />
             </div>
-          </motion.div>
+          </motion.button>
         ))}
       </div>
 
@@ -174,18 +179,22 @@ export default function RealmCorridor() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="relative w-full max-w-xl glass-panel-bright rounded-sm p-8 sm:p-12 overflow-y-auto scrollbar-none flex flex-col z-10 shadow-2xl border border-red-500/20"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-title"
               style={{
                 backgroundImage: `radial-gradient(circle at 50% 0%, ${activeItem.spotlightColor} 0%, transparent 70%)`
               }}
             >
               {/* Golden/Red Accent top bar */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent" aria-hidden="true" />
 
               {/* Close Button */}
               <button
                 onClick={() => setActiveItem(null)}
                 className="absolute top-4 right-4 text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1.5 border border-luxury-white/5 hover:border-red-500/30 rounded-full"
                 title="Close"
+                aria-label="Close exhibit details"
               >
                 <X className="w-4 h-4 text-luxury-muted" />
               </button>
@@ -193,20 +202,20 @@ export default function RealmCorridor() {
               {/* Header */}
               <div className="flex items-center gap-2.5 text-luxury-gold mb-6">
                 <Cpu className="w-4 h-4 text-red-500" />
-                <span className="font-display text-[9px] tracking-[0.3em] uppercase font-bold text-luxury-gold">
-                  {activeItem.exhibitNumber} · APPRENTICESHIP DETECTOR
+                <span className="font-mono text-[9px] tracking-[0.1em] uppercase font-bold text-luxury-gold">
+                  {activeItem.exhibitNumber} · EXPERIENCE_RECORD
                 </span>
               </div>
 
               {/* Content Title */}
               <div className="mb-8">
-                <span className="font-display text-[9px] tracking-[0.25em] text-luxury-muted uppercase">
+                <span className="font-mono text-[9px] tracking-[0.1em] text-luxury-muted uppercase">
                   {activeItem.company} · {activeItem.period}
                 </span>
-                <h3 className="font-serif italic font-light text-4xl sm:text-5xl text-luxury-white mt-1 leading-tight">
+                <h3 id="modal-title" className="font-serif italic font-light text-4xl sm:text-5xl text-luxury-white mt-1 leading-tight">
                   {activeItem.themeTitle}
                 </h3>
-                <p className="font-display text-[10px] tracking-[0.18em] text-red-500/80 uppercase mt-2">
+                <p className="font-mono text-[9px] tracking-[0.1em] text-red-500/80 uppercase mt-2">
                   {activeItem.role}
                 </p>
               </div>
@@ -220,7 +229,7 @@ export default function RealmCorridor() {
                 <ul className="space-y-3 font-sans font-light text-sm text-luxury-white/95 pl-1.5">
                   {activeItem.bullets.map((bullet, index) => (
                     <li key={index} className="flex items-start gap-2.5">
-                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-1.5 shadow-[0_0_8px_#ef4444]" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0 mt-1.5 shadow-[0_0_8px_#ef4444]" aria-hidden="true" />
                       <span>{bullet}</span>
                     </li>
                   ))}
@@ -243,7 +252,7 @@ export default function RealmCorridor() {
                 {activeItem.tech.map((t) => (
                   <span
                     key={t}
-                    className="font-display text-[8.5px] tracking-[0.08em] text-luxury-white bg-luxury-white/5 border border-luxury-white/5 px-2 py-0.5 rounded-sm"
+                    className="font-mono text-[8.5px] tracking-[0.05em] text-luxury-white bg-luxury-white/5 border border-luxury-white/5 px-2 py-0.5 rounded-sm"
                   >
                     {t}
                   </span>
@@ -253,6 +262,6 @@ export default function RealmCorridor() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }

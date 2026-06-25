@@ -15,7 +15,9 @@ export function toggleAudioMute(isMuted: boolean) {
   
   if (masterGain && audioCtx) {
     if (audioCtx.state === "suspended") {
-      audioCtx.resume();
+      audioCtx.resume().catch((err) => {
+        console.warn("AudioContext resume failed:", err);
+      });
     }
     const targetVolume = isMuted ? 0 : 0.08; // Muted vs gentle volume
     masterGain.gain.setTargetAtTime(targetVolume, audioCtx.currentTime, 1.2);
@@ -133,7 +135,7 @@ export default function AudioSystem() {
     // Warm-up on first user interaction to satisfy browser policy
     const warmUp = () => {
       if (audioCtx && audioCtx.state === "suspended") {
-        audioCtx.resume();
+        audioCtx.resume().catch(() => {});
       }
       window.removeEventListener("click", warmUp);
       window.removeEventListener("scroll", warmUp);

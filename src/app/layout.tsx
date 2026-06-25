@@ -24,12 +24,12 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "Sara Chaudary | The Sara Universe",
-  description: "Enter a living digital universe displaying the design thinking, full-stack software engineering, and creative archive of Sara Chaudary.",
+  title: "Sara Chaudary | Portfolio",
+  description: "Interactive portfolio displaying the design thinking, full-stack software engineering, and creative archives of Sara Chaudary.",
   authors: [{ name: "Sara Chaudary" }],
   openGraph: {
-    title: "Sara Chaudary | The Sara Universe",
-    description: "An immersive museum exhibition portfolio building experiences between logic and aesthetics.",
+    title: "Sara Chaudary | Software Engineer & Creative Architect",
+    description: "A premium digital exhibition building experiences between logic and aesthetics.",
     type: "website",
   },
 };

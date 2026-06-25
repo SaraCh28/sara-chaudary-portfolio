@@ -20,16 +20,17 @@ function TimelineItem({ year, title, description, alignment }: TimelineItemProps
       className={`flex flex-col md:flex-row w-full mb-16 items-start ${
         alignment === "right" ? "md:flex-row-reverse" : ""
       }`}
+      role="listitem"
     >
       {/* Year indicator */}
       <div className={`w-full md:w-1/2 flex ${alignment === "left" ? "md:justify-end md:pr-12" : "md:justify-start md:pl-12"} mb-2 md:mb-0`}>
-        <span className="font-serif italic font-light text-3xl sm:text-4xl text-luxury-gold tracking-wider">
+        <span className="font-mono text-xl sm:text-2xl text-luxury-gold tracking-wider uppercase font-semibold">
           {year}
         </span>
       </div>
 
       {/* Vertical separator */}
-      <div className="hidden md:flex flex-col items-center justify-start h-full pt-3 relative z-10">
+      <div className="hidden md:flex flex-col items-center justify-start h-full pt-3 relative z-10" aria-hidden="true">
         <div className="w-2 h-2 rounded-full bg-luxury-gold gold-glow" />
         <div className="w-[1px] h-32 bg-luxury-gold/15 mt-2" />
       </div>
@@ -82,7 +83,11 @@ export default function RealmOriginStory() {
   ];
 
   return (
-    <div className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none">
+    <section 
+      id="origin" 
+      aria-label="Origin Story Timeline"
+      className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none"
+    >
       {/* Editorial Chapter Header + Biography */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-20 items-start">
         <motion.div
@@ -96,7 +101,7 @@ export default function RealmOriginStory() {
             Chapter I
           </span>
           <h2 className="font-display font-medium text-4xl sm:text-5xl text-luxury-white tracking-widest uppercase leading-snug">
-            The Origin Story
+            About
           </h2>
           <div className="w-12 h-[1px] bg-luxury-gold mt-4 mx-auto md:mx-0" />
         </motion.div>
@@ -106,24 +111,52 @@ export default function RealmOriginStory() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.25 }}
-          className="md:col-span-8 font-sans font-light text-sm sm:text-base leading-relaxed text-luxury-white/90 space-y-4 max-w-xl text-left border-l border-luxury-gold/20 pl-6 md:pl-8"
+          className="md:col-span-8 flex flex-col gap-6 text-left border-l border-luxury-gold/20 pl-6 md:pl-8"
         >
-          <p>
-            Software Engineering student building full-stack web and mobile applications with a strong focus on AI integration, interactive user experiences, and scalable architecture.
-          </p>
-          <p>
-            Experienced in developing production-style applications using React, Flutter, Node.js, PostgreSQL, and Supabase. Built systems ranging from AI-assisted event discovery platforms and intelligent journaling applications to digital identity analysis tools that combine machine learning, embeddings, clustering, and graph-based visualization.
-          </p>
-          <p>
-            Interested in the intersection of software engineering, design, and emerging AI technologies, with a growing focus on creating products that are both technically robust and visually engaging.
-          </p>
+          {/* Biography */}
+          <div className="font-sans font-light text-sm sm:text-base leading-relaxed text-luxury-white/90 space-y-4 max-w-xl">
+            <p>
+              Software Engineering student building full-stack web and mobile applications with a strong focus on AI integration, interactive user experiences, and scalable architecture.
+            </p>
+            <p>
+              Experienced in developing production-style applications using React, Flutter, Node.js, PostgreSQL, and Supabase. Built systems ranging from AI-assisted event discovery platforms and intelligent journaling applications to digital identity analysis tools that combine machine learning, embeddings, clustering, and graph-based visualization.
+            </p>
+            <p>
+              Interested in the intersection of software engineering, design, and emerging AI technologies, with a growing focus on creating products that are both technically robust and visually engaging.
+            </p>
+          </div>
+
+          {/* Education credentials card — visible to recruiters without opening resume */}
+          <div className="border border-luxury-gold/20 bg-luxury-white/[0.03] rounded-sm px-5 py-4 max-w-xl">
+            <span className="font-mono text-[8px] tracking-[0.15em] text-luxury-gold uppercase font-semibold block mb-3">
+              Education
+            </span>
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+              <div>
+                <h3 className="font-sans font-semibold text-sm text-luxury-white leading-snug">
+                  BSc Software Engineering
+                </h3>
+                <p className="font-sans font-light text-xs text-luxury-white/70 mt-0.5">
+                  COMSATS University Islamabad
+                </p>
+              </div>
+              <div className="flex flex-col items-start sm:items-end gap-0.5 shrink-0">
+                <span className="font-mono text-[9px] tracking-[0.08em] text-luxury-gold">
+                  2022 – 2026
+                </span>
+                <span className="font-mono text-[9px] tracking-[0.05em] text-luxury-muted/70">
+                  Lahore, Pakistan
+                </span>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
 
       {/* Timeline List */}
-      <div className="relative mt-8">
+      <div className="relative mt-8" role="list" aria-label="Origin events timeline">
         {/* Central timeline line */}
-        <div className="absolute left-0 md:left-1/2 top-4 bottom-0 w-[1px] bg-luxury-gold/10 -translate-x-1/2 hidden md:block" />
+        <div className="absolute left-0 md:left-1/2 top-4 bottom-0 w-[1px] bg-luxury-gold/10 -translate-x-1/2 hidden md:block" aria-hidden="true" />
 
         {storyEvents.map((event, idx) => (
           <TimelineItem
@@ -135,6 +168,6 @@ export default function RealmOriginStory() {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

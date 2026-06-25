@@ -79,7 +79,11 @@ export default function RealmArchive() {
   const expanded = ITEMS.find((i) => i.id === expandedId) ?? null;
 
   return (
-    <div className="py-20 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none">
+    <section 
+      id="archive" 
+      aria-label="Creative Scrapbook Archive"
+      className="py-20 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none"
+    >
       {/* Realm Title — smaller, treated as an interlude */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -105,20 +109,21 @@ export default function RealmArchive() {
         {ITEMS.map((item, idx) => {
           const Icon = item.icon;
           return (
-            <motion.div
+            <motion.button
               key={item.id}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
               onClick={() => setExpandedId(item.id)}
-              className={`glass-panel p-3 rounded-sm shadow-lg cursor-pointer flex flex-col justify-between group ${item.rotation} transition-all duration-500 hover:shadow-luxury-gold/10`}
+              className={`glass-panel p-3 rounded-sm shadow-lg cursor-pointer flex flex-col justify-between group ${item.rotation} transition-all duration-500 hover:shadow-luxury-gold/10 text-left bg-transparent w-full`}
               style={{ minHeight: "130px" }}
+              aria-label={`Open details for ${item.title}`}
             >
               {/* Card header */}
-              <div>
+              <div className="w-full">
                 <div className="flex justify-between items-center mb-2">
-                  <Icon className="w-3 h-3 text-luxury-gold/70" />
+                  <Icon className="w-3 h-3 text-luxury-gold/70" aria-hidden="true" />
                   <span className="text-sm leading-none" role="img">{item.accentEmoji}</span>
                 </div>
                 <h3 className="font-serif italic font-light text-sm text-luxury-white/80 group-hover:text-luxury-gold transition-colors duration-300 leading-tight">
@@ -127,12 +132,12 @@ export default function RealmArchive() {
               </div>
 
               {/* Card footer */}
-              <div className="mt-2 pt-2 border-t border-luxury-gold/8">
-                <span className="font-display text-[7px] tracking-[0.1em] text-luxury-muted/50 uppercase group-hover:text-luxury-gold/60 transition-colors duration-300">
+              <div className="mt-2 pt-2 border-t border-luxury-gold/8 w-full">
+                <span className="font-mono text-[8px] tracking-[0.05em] text-luxury-muted/50 uppercase group-hover:text-luxury-gold/60 transition-colors duration-300">
                   READ →
                 </span>
               </div>
-            </motion.div>
+            </motion.button>
           );
         })}
       </div>
@@ -154,28 +159,32 @@ export default function RealmArchive() {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="relative glass-panel-bright rounded-sm p-8 sm:p-12 max-w-lg w-full z-10 shadow-2xl"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="archive-modal-title"
             >
               {/* Close */}
               <button
                 onClick={() => setExpandedId(null)}
                 className="absolute top-4 right-4 text-luxury-muted hover:text-luxury-gold transition-colors border border-luxury-white/5 hover:border-luxury-gold/30 rounded-full p-1.5"
+                aria-label="Close archive item details"
               >
                 <X className="w-4 h-4" />
               </button>
 
               {/* Content */}
               <div className="flex items-center gap-3 mb-6">
-                <expanded.icon className="w-5 h-5 text-luxury-gold" />
-                <span className="font-display text-[9px] tracking-[0.3em] text-luxury-gold uppercase font-bold">
+                <expanded.icon className="w-5 h-5 text-luxury-gold" aria-hidden="true" />
+                <span className="font-mono text-[9px] tracking-[0.1em] text-luxury-gold uppercase font-bold">
                   {expanded.type}
                 </span>
               </div>
 
-              <h3 className="font-serif italic font-light text-4xl text-luxury-white mb-4">{expanded.title}</h3>
+              <h3 id="archive-modal-title" className="font-serif italic font-light text-4xl text-luxury-white mb-4">{expanded.title}</h3>
               <p className="font-sans font-light text-sm leading-relaxed text-luxury-muted mb-8">{expanded.content}</p>
 
               <div className="border-t border-luxury-gold/10 pt-4">
-                <span className="font-display text-[8px] tracking-[0.2em] text-luxury-gold uppercase font-semibold">
+                <span className="font-mono text-[9px] tracking-[0.05em] text-luxury-gold uppercase font-semibold">
                   {expanded.detail}
                 </span>
               </div>
@@ -183,6 +192,6 @@ export default function RealmArchive() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }

@@ -112,16 +112,16 @@ export default function Home() {
   useEffect(() => {
     // 1. Welcome banner inside Console logs
     console.log(
-      "%cSARA CHAUDARY | THE SARA UNIVERSE",
-      "color: #c5a880; font-family: 'Times New Roman', serif; font-size: 24px; font-weight: bold; font-style: italic; text-shadow: 0 0 10px rgba(197, 168, 128, 0.3);"
+      "%c◆ SARA CHAUDARY | SYSTEMS ARCHITECT ◆",
+      "color: #c5a880; font-family: monospace; font-size: 20px; font-weight: bold; text-shadow: 0 0 8px rgba(197, 168, 128, 0.4);"
     );
     console.log(
-      "%cWelcome, Recruiter. The system coordinates have been mapped below.",
-      "color: #8a8a93; font-family: sans-serif; font-size: 13px;"
+      "%c[SYS_INFO] Welcome, Recruiter. All portfolio coordinates mapped and ready.",
+      "color: #8a8a93; font-family: monospace; font-size: 12px;"
     );
     console.log(
-      "%cEaster Egg: Type hireSara() inside this console prompt to unlock immediate transmission protocols.",
-      "color: #8a7152; font-family: monospace; font-size: 11px; font-weight: bold; border-left: 2px solid #c5a880; padding-left: 8px;"
+      "%c[EASTER_EGG] Type hireSara() in this terminal to trigger immediate resume transmission protocols.",
+      "color: #c5a880; font-family: monospace; font-size: 11px; font-weight: bold; border-left: 2px solid #c5a880; padding-left: 8px;"
     );
 
     // 2. Global console hire function definition

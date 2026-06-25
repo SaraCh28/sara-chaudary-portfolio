@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Github, Linkedin, Mail, Volume2, VolumeX, ShieldAlert } from "lucide-react";
+import { Github, Linkedin, Mail, Volume2, VolumeX } from "lucide-react";
 
 interface HUDProps {
   activeRealm: number;
@@ -9,19 +9,18 @@ interface HUDProps {
 }
 
 const REALM_NAMES = [
-  "Gateway",
-  "Origin Story",
-  "Hall of Experience",
-  "Museum Exhibits",
-  "The Workshop",
-  "The Library",
-  "The Archive",
-  "The Portal",
+  "Home",
+  "About",
+  "Experience",
+  "Projects",
+  "Process",
+  "Skills",
+  "Interests",
+  "Contact",
 ];
 
 export default function HUD({ activeRealm, onNavigate }: HUDProps) {
   const [isMuted, setIsMuted] = useState<boolean>(true);
-  const [fps, setFps] = useState<number>(60);
   const [lowPerf, setLowPerf] = useState<boolean>(false);
 
   // Audio Toggle
@@ -31,7 +30,7 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
     window.dispatchEvent(new CustomEvent("audio-toggle-mute", { detail: { isMuted: newMuted } }));
   };
 
-  // Performance Monitor
+  // Performance Monitor (kept for canvas eco-mode, not shown in UI)
   useEffect(() => {
     let lastTime = performance.now();
     let frames = 0;
@@ -41,11 +40,10 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
     const calcFps = () => {
       const now = performance.now();
       frames++;
-      
+
       if (now >= lastTime + 1000) {
         const currentFps = Math.round((frames * 1000) / (now - lastTime));
-        setFps(currentFps);
-        
+
         if (currentFps < 40) {
           lowFpsCount++;
           if (lowFpsCount >= 3 && !lowPerf) {
@@ -55,7 +53,7 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
         } else {
           lowFpsCount = 0;
         }
-        
+
         frames = 0;
         lastTime = now;
       }
@@ -71,26 +69,28 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
       {/* Top Bar Header */}
       <header className="w-full flex items-center justify-between pointer-events-auto">
         {/* Editorial Logo */}
-        <div 
+        <div
           onClick={() => onNavigate(0)}
           className="group cursor-pointer flex flex-col items-start"
+          role="button"
+          aria-label="Go to home"
         >
           <span className="font-serif italic font-medium text-xl sm:text-2xl tracking-[0.1em] text-luxury-gold group-hover:text-luxury-white transition-colors duration-500">
             Sara Chaudary
           </span>
           <span className="font-display font-medium text-[8px] sm:text-[9px] tracking-[0.3em] text-luxury-muted uppercase">
-            Software Engineer · AI & Product
+            Software Engineer · AI &amp; Product
           </span>
         </div>
 
-        {/* Quick Social & Resume Links (Recruiter Requirements < 10s) */}
-        <div className="flex items-center gap-4 sm:gap-6">
+        {/* Quick Social & Resume Links */}
+        <nav className="flex items-center gap-4 sm:gap-5" aria-label="Social and Resume Channels">
           <a
             href="https://github.com/SaraCh28"
             target="_blank"
             rel="noopener noreferrer"
             className="text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
-            title="GitHub"
+            aria-label="Sara Chaudary's GitHub Profile"
           >
             <Github className="w-4 h-4 sm:w-5 sm:h-5" />
           </a>
@@ -99,22 +99,22 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             target="_blank"
             rel="noopener noreferrer"
             className="text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
-            title="LinkedIn"
+            aria-label="Sara Chaudary's LinkedIn Profile"
           >
             <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />
           </a>
           <a
             href="mailto:sarachaudary028@gmail.com"
             className="hidden sm:inline text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
-            title="Email"
+            aria-label="Send Email to Sara Chaudary"
           >
             <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
           </a>
           <a
             href="/resume.pdf"
             download="Sara_Chaudary_Resume.pdf"
-            className="hidden sm:inline-block font-display font-semibold text-[10px] tracking-[0.2em] border border-luxury-gold/30 hover:border-luxury-gold bg-luxury-bg/40 px-3 py-1.5 rounded-sm text-luxury-gold hover:text-luxury-white transition-all duration-300"
-            title="Download Resume"
+            className="hidden sm:inline-block font-mono font-semibold text-[10px] tracking-[0.15em] border border-luxury-gold/30 hover:border-luxury-gold bg-luxury-bg/40 px-3 py-1.5 rounded-sm text-luxury-gold hover:text-luxury-white transition-all duration-300"
+            aria-label="Download Sara Chaudary's Resume PDF"
           >
             RESUME.PDF
           </a>
@@ -123,58 +123,61 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             target="_blank"
             rel="noopener noreferrer"
             className="sm:hidden text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
-            title="View Resume"
+            aria-label="View Resume PDF"
           >
-            <span className="font-display font-bold text-[9px] tracking-[0.1em] border border-luxury-gold/30 px-2 py-1 rounded-sm text-luxury-gold">CV</span>
+            <span className="font-mono font-bold text-[9px] tracking-[0.1em] border border-luxury-gold/30 px-2 py-1 rounded-sm text-luxury-gold">CV</span>
           </a>
           <button
             onClick={() => onNavigate(7)}
-            className="font-display font-semibold text-[10px] tracking-[0.2em] bg-luxury-gold hover:bg-luxury-gold-glow text-luxury-bg px-3 py-1.5 rounded-sm transition-all duration-300 shadow-lg shadow-luxury-gold/10"
+            className="font-mono font-semibold text-[10px] tracking-[0.15em] bg-luxury-gold hover:bg-luxury-gold-glow text-luxury-bg px-3 py-1.5 rounded-sm transition-all duration-300 shadow-lg shadow-luxury-gold/10"
+            aria-label="Navigate to contact section"
           >
             HIRE
           </button>
-        </div>
+        </nav>
       </header>
 
-      {/* Center Left Sidebar: Navigation Indices (Floating Museum Catalog Index) */}
-      <div className="absolute left-6 sm:left-10 top-1/2 -translate-y-1/2 flex flex-col gap-4 pointer-events-auto">
+      {/* Center Left Sidebar: Navigation Indices */}
+      <nav className="absolute left-6 sm:left-10 top-1/2 -translate-y-1/2 flex flex-col gap-4 pointer-events-auto" aria-label="Section Navigation">
         {REALM_NAMES.map((name, idx) => {
           const isActive = activeRealm === idx;
           return (
-            <div
+            <button
               key={idx}
               onClick={() => onNavigate(idx)}
-              className="group flex items-center gap-3 cursor-pointer py-1"
+              className="group flex items-center gap-3 cursor-pointer py-1 bg-transparent border-none text-left focus:outline-none"
+              aria-label={`Navigate to ${name}`}
+              aria-current={isActive ? "page" : undefined}
             >
               {/* Dot */}
-              <div 
-                className="w-1.5 h-1.5 rounded-full transition-all duration-500" 
+              <div
+                className="w-1.5 h-1.5 rounded-full transition-all duration-500"
                 style={{
-                  backgroundColor: isActive ? "#c5a880" : "rgba(138, 138, 147, 0.3)",
+                  backgroundColor: isActive ? "#c5a880" : "rgba(200, 200, 210, 0.35)",
                   transform: isActive ? "scale(1.5)" : "scale(1)",
                   boxShadow: isActive ? "0 0 8px #c5a880" : "none"
                 }}
               />
-              
-              {/* Index & Name */}
+
+              {/* Index & Name — visible on hover */}
               <div className="flex flex-col opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <span className="font-display text-[8px] text-luxury-gold tracking-[0.15em] font-semibold leading-none">
+                <span className="font-mono text-[8px] text-luxury-gold tracking-[0.1em] font-semibold leading-none">
                   0{idx}
                 </span>
                 <span className="font-serif italic text-[10px] text-luxury-white whitespace-nowrap leading-none mt-0.5">
                   {name}
                 </span>
               </div>
-            </div>
+            </button>
           );
         })}
-      </div>
+      </nav>
 
-      {/* Bottom Footer Controls */}
+      {/* Bottom Footer */}
       <footer className="w-full flex items-center justify-between pointer-events-auto mt-auto">
-        {/* Active Section Label indicator */}
+        {/* Active Section Label */}
         <div className="flex items-center gap-3">
-          <span className="font-display text-[11px] font-bold text-luxury-gold tracking-[0.25em]">
+          <span className="font-mono text-[11px] font-bold text-luxury-gold tracking-[0.1em]">
             0{activeRealm}
           </span>
           <div className="w-8 h-[1px] bg-luxury-gold/30" />
@@ -183,41 +186,30 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
           </span>
         </div>
 
-        {/* System Controls */}
-        <div className="flex items-center gap-6">
-          {/* Performance Warning if active */}
-          {lowPerf && (
-            <div className="flex items-center gap-2 text-[9px] font-display text-amber-500 tracking-[0.1em] border border-amber-500/20 bg-amber-500/5 px-2 py-1 rounded">
-              <ShieldAlert className="w-3.5 h-3.5" />
-              <span>ECO MODE</span>
-            </div>
-          )}
-
-          {/* FPS Monitor */}
-          <div className="hidden md:flex items-baseline gap-1 text-[9px] font-display text-luxury-muted tracking-[0.15em]">
-            <span>ENGINE:</span>
-            <span className={lowPerf ? "text-amber-500" : "text-luxury-gold"}>
-              {fps} FPS
+        {/* Right side: Open to Work badge + audio icon */}
+        <div className="flex items-center gap-4">
+          {/* Open to Work availability badge */}
+          <div className="flex items-center gap-2 border border-luxury-gold/25 bg-luxury-gold/[0.06] px-3 py-1.5 rounded-sm">
+            {/* Pulsing green dot */}
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+            </span>
+            <span className="font-mono text-[9px] tracking-[0.08em] text-luxury-white/90 whitespace-nowrap">
+              Open to work · Full-time
             </span>
           </div>
 
-          {/* Audio Synthesizer Control */}
+          {/* Minimal audio toggle */}
           <button
             onClick={toggleMute}
-            className="flex items-center gap-3 group text-luxury-muted hover:text-luxury-gold transition-colors duration-300 py-1 px-2 border border-luxury-gold/10 hover:border-luxury-gold/30 rounded-sm bg-luxury-bg/30"
+            className="text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1.5 border border-luxury-gold/10 hover:border-luxury-gold/30 rounded-sm bg-luxury-bg/30"
+            aria-label={isMuted ? "Unmute ambient audio" : "Mute ambient audio"}
           >
-            <span className="font-display font-medium text-[9px] tracking-[0.2em]">
-              SOUND: {isMuted ? "OFF" : "ON"}
-            </span>
             {isMuted ? (
-              <VolumeX className="w-4 h-4 transition-transform group-hover:scale-110" />
+              <VolumeX className="w-3.5 h-3.5" />
             ) : (
-              <div className="flex items-end gap-[2px] h-3 w-4">
-                <div className="audio-bar w-[2px] bg-luxury-gold animate-[pulse_0.4s_infinite_alternate]" style={{ height: "40%" }} />
-                <div className="audio-bar w-[2px] bg-luxury-gold animate-[pulse_0.6s_infinite_alternate_0.1s]" style={{ height: "100%" }} />
-                <div className="audio-bar w-[2px] bg-luxury-gold animate-[pulse_0.5s_infinite_alternate_0.2s]" style={{ height: "70%" }} />
-                <div className="audio-bar w-[2px] bg-luxury-gold animate-[pulse_0.7s_infinite_alternate_0.05s]" style={{ height: "50%" }} />
-              </div>
+              <Volume2 className="w-3.5 h-3.5 text-luxury-gold" />
             )}
           </button>
         </div>
