@@ -70,12 +70,12 @@ export default function RealmCorridor() {
   }, [activeItem]);
 
   return (
-    <section 
-      id="experience" 
+    <section
+      id="experience"
       aria-label="Professional Experience Exhibits"
       className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-6xl mx-auto relative z-10 flex flex-col justify-center select-none"
     >
-      
+
       {/* Realm Title */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -85,7 +85,7 @@ export default function RealmCorridor() {
         className="mb-20 text-center md:text-left"
       >
         <span className="font-serif italic text-2xl sm:text-3xl text-luxury-gold block mb-2">
-          Realm II
+          Chapter II
         </span>
         <h2 className="font-display font-medium text-4xl sm:text-5xl text-luxury-white tracking-widest uppercase">
           Hall of Experience
@@ -119,7 +119,7 @@ export default function RealmCorridor() {
           >
             {/* Visual spotlight cone indicator */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-luxury-gold/5 blur-3xl pointer-events-none group-hover:bg-red-500/5 transition-all duration-500" aria-hidden="true" />
-            
+
             {/* Spotlight Accent Dot */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-luxury-gold gold-glow group-hover:bg-red-500 group-hover:shadow-[0_0_12px_#ef4444] transition-all duration-500" aria-hidden="true" />
 
@@ -140,7 +140,7 @@ export default function RealmCorridor() {
               <h3 className="font-serif italic font-light text-3xl sm:text-4xl text-luxury-white mb-4 group-hover:text-luxury-gold transition-colors duration-300">
                 {item.themeTitle}
               </h3>
-              
+
               <div className="flex items-center gap-2 text-luxury-muted text-xs sm:text-sm font-sans font-light border-l border-luxury-gold/30 pl-3 mb-6">
                 <Briefcase className="w-3.5 h-3.5 text-luxury-gold" />
                 <span>{item.role}</span>

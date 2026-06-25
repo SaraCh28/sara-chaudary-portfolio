@@ -66,8 +66,8 @@ export default function RealmWorkshop() {
   ];
 
   return (
-    <section 
-      id="workshop" 
+    <section
+      id="workshop"
       aria-label="Development Process Workshop"
       className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none"
     >
@@ -79,7 +79,7 @@ export default function RealmWorkshop() {
         className="mb-16 text-center md:text-left"
       >
         <span className="font-serif italic text-2xl sm:text-3xl text-luxury-gold block mb-2">
-          Realm IV
+          Chapter IV
         </span>
         <h2 className="font-display font-medium text-4xl sm:text-5xl text-luxury-white tracking-widest uppercase">
           The Workshop
@@ -90,7 +90,7 @@ export default function RealmWorkshop() {
       {/* Workshop Layout Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-4xl mx-auto w-full">
         {/* Left Side: Step Selectors */}
-        <div 
+        <div
           className="lg:col-span-4 flex flex-row lg:flex-col justify-between lg:justify-center gap-2 lg:gap-4 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scrollbar-none border-b lg:border-b-0 lg:border-r border-luxury-gold/15 pr-0 lg:pr-6"
           role="tablist"
           aria-label="Development Phases"
@@ -105,11 +105,10 @@ export default function RealmWorkshop() {
                 aria-selected={isActive}
                 aria-controls="phase-details"
                 onClick={() => setActiveStep(step.id)}
-                className={`flex items-center gap-3 py-2 px-3 sm:px-4 rounded-sm transition-all duration-300 font-mono text-[10px] tracking-[0.1em] uppercase text-left whitespace-nowrap lg:whitespace-normal w-full border ${
-                  isActive
+                className={`flex items-center gap-3 py-2 px-3 sm:px-4 rounded-sm transition-all duration-300 font-mono text-[10px] tracking-[0.1em] uppercase text-left whitespace-nowrap lg:whitespace-normal w-full border ${isActive
                     ? "bg-luxury-gold text-luxury-bg border-luxury-gold shadow-lg shadow-luxury-gold/10 font-bold"
                     : "text-luxury-muted hover:text-luxury-white border-transparent hover:border-luxury-gold/20 bg-luxury-white/5"
-                }`}
+                  }`}
               >
                 <IconComponent className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span className="hidden sm:inline">{step.name}</span>
@@ -119,7 +118,7 @@ export default function RealmWorkshop() {
         </div>
 
         {/* Right Side: Step Details */}
-        <div 
+        <div
           id="phase-details"
           role="tabpanel"
           className="lg:col-span-8 flex flex-col justify-between min-h-[300px] lg:pl-6"

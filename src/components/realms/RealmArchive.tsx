@@ -79,10 +79,10 @@ export default function RealmArchive() {
   const expanded = ITEMS.find((i) => i.id === expandedId) ?? null;
 
   return (
-    <section 
-      id="archive" 
+    <section
+      id="archive"
       aria-label="Creative Scrapbook Archive"
-      className="py-20 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none"
+      className="py-10 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none"
     >
       {/* Realm Title — smaller, treated as an interlude */}
       <motion.div
@@ -92,8 +92,8 @@ export default function RealmArchive() {
         transition={{ duration: 0.7 }}
         className="mb-10 text-center md:text-left"
       >
-        <span className="font-serif italic text-base sm:text-lg text-luxury-gold/70 block mb-1">
-          Realm VI
+        <span className="font-serif italic text-2xl sm:text-3xl text-luxury-gold block mb-2">
+          Chapter VI
         </span>
         <h2 className="font-display font-medium text-2xl sm:text-3xl text-luxury-white/80 tracking-widest uppercase">
           The Archive

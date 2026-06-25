@@ -79,7 +79,7 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             Sara Chaudary
           </span>
           <span className="font-display font-medium text-[8px] sm:text-[9px] tracking-[0.3em] text-luxury-muted uppercase">
-            Software Engineer · AI &amp; Product
+            Software Engineer · AI &amp;
           </span>
         </div>
 
@@ -111,19 +111,18 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
           </a>
           <a
-            href="/resume.pdf"
-            download="Sara_Chaudary_Resume.pdf"
+            href="/Sara_Chaudary_Resume.docx"
+            download="Sara_Chaudary_Resume.docx"
             className="hidden sm:inline-block font-mono font-semibold text-[10px] tracking-[0.15em] border border-luxury-gold/30 hover:border-luxury-gold bg-luxury-bg/40 px-3 py-1.5 rounded-sm text-luxury-gold hover:text-luxury-white transition-all duration-300"
-            aria-label="Download Sara Chaudary's Resume PDF"
+            aria-label="Download Sara Chaudary's Resume"
           >
-            RESUME.PDF
+            RESUME
           </a>
           <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/Sara_Chaudary_Resume.docx"
+            download="Sara_Chaudary_Resume.docx"
             className="sm:hidden text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
-            aria-label="View Resume PDF"
+            aria-label="Download Resume"
           >
             <span className="font-mono font-bold text-[9px] tracking-[0.1em] border border-luxury-gold/30 px-2 py-1 rounded-sm text-luxury-gold">CV</span>
           </a>

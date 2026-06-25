@@ -138,7 +138,7 @@ export default function Home() {
       });
       
       // Auto open resume
-      window.open("/resume.pdf", "_blank");
+      window.open("/Sara_Chaudary_Resume.docx", "_blank");
       return "SUCCESS: Portal locks cleared. Resume downloaded. Let's make something amazing.";
     };
 

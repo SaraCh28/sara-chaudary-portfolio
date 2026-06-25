@@ -191,8 +191,8 @@ export default function RealmMuseum() {
   }, [activeProject]);
 
   return (
-    <section 
-      id="projects" 
+    <section
+      id="projects"
       aria-label="Museum Project Exhibits"
       className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-7xl mx-auto relative z-10 flex flex-col justify-center select-none"
     >
@@ -206,7 +206,7 @@ export default function RealmMuseum() {
         className="mb-16 text-center md:text-left"
       >
         <span className="font-serif italic text-2xl sm:text-3xl text-luxury-gold block mb-2">
-          Realm III
+          Chapter III
         </span>
         <h2 className="font-display font-medium text-4xl sm:text-5xl text-luxury-white tracking-widest uppercase">
           Museum of Projects

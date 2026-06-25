@@ -33,9 +33,9 @@ const CONTACT_LINKS = [
   {
     icon: FileText,
     label: "Curriculum Vitae",
-    value: "Download Resume PDF",
-    href: "/resume.pdf",
-    download: "Sara_Chaudary_Resume.pdf",
+    value: "Download Resume",
+    href: "/Sara_Chaudary_Resume.docx",
+    download: "Sara_Chaudary_Resume.docx",
   },
 ];
 

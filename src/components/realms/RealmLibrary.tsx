@@ -275,8 +275,8 @@ export default function RealmLibrary() {
 
 
   return (
-    <section 
-      id="library" 
+    <section
+      id="library"
       aria-label="Technical Skills Library"
       className="min-h-screen py-24 px-6 sm:px-12 md:px-24 max-w-5xl mx-auto relative z-10 flex flex-col justify-center select-none"
     >
@@ -288,7 +288,7 @@ export default function RealmLibrary() {
         className="mb-16 text-center md:text-left"
       >
         <span className="font-serif italic text-2xl sm:text-3xl text-luxury-gold block mb-2">
-          Realm V
+          Chapter V
         </span>
         <h2 className="font-display font-medium text-4xl sm:text-5xl text-luxury-white tracking-widest uppercase">
           The Library
@@ -299,7 +299,7 @@ export default function RealmLibrary() {
       {/* Library Interactive Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start max-w-4xl mx-auto w-full">
         {/* Book Shelf / Category Selectors */}
-        <div 
+        <div
           className="md:col-span-4 flex flex-row md:flex-col gap-2 md:gap-4 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 scrollbar-none border-b md:border-b-0 md:border-r border-luxury-gold/15 pr-0 md:pr-6"
           role="tablist"
           aria-label="Skill Shelves"
@@ -314,11 +314,10 @@ export default function RealmLibrary() {
                 setActiveCategory(idx);
                 setActiveSkill(null);
               }}
-              className={`font-mono text-[9px] tracking-[0.1em] uppercase text-left py-2 px-4 border rounded-sm transition-all duration-300 w-full ${
-                activeCategory === idx
+              className={`font-mono text-[9px] tracking-[0.1em] uppercase text-left py-2 px-4 border rounded-sm transition-all duration-300 w-full ${activeCategory === idx
                   ? "bg-luxury-gold text-luxury-bg border-luxury-gold shadow-md font-semibold"
                   : "text-luxury-muted hover:text-luxury-white border-transparent hover:border-luxury-gold/20"
-              }`}
+                }`}
             >
               {cat.label}
             </button>
@@ -326,7 +325,7 @@ export default function RealmLibrary() {
         </div>
 
         {/* Catalog List / Skills list */}
-        <div 
+        <div
           id="catalog-panel"
           role="tabpanel"
           className="md:col-span-8 grid grid-cols-1 gap-4 md:pl-6"
@@ -353,11 +352,10 @@ export default function RealmLibrary() {
                     type="button"
                     aria-expanded={isSelected}
                     onClick={() => setActiveSkill(isSelected ? null : skill)}
-                    className={`text-left w-full block glass-panel p-5 rounded-sm cursor-pointer transition-all duration-300 bg-transparent ${
-                      isSelected
+                    className={`text-left w-full block glass-panel p-5 rounded-sm cursor-pointer transition-all duration-300 bg-transparent ${isSelected
                         ? "border-luxury-gold bg-luxury-white/5"
                         : "hover:border-luxury-gold/30 hover:bg-luxury-white/5"
-                    }`}
+                      }`}
                   >
                     <div className="flex justify-between items-center w-full">
                       <h3 className="font-serif italic font-light text-xl text-luxury-white">
