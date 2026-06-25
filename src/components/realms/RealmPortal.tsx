@@ -109,7 +109,7 @@ export default function RealmPortal() {
         className="mb-16 text-center md:text-left relative z-10"
       >
         <span className="font-serif italic text-2xl sm:text-3xl text-luxury-gold block mb-2">
-          Realm VII
+          Chapter VII
         </span>
         <h2 className="font-display font-medium text-4xl sm:text-5xl text-luxury-white tracking-widest uppercase">
           The Portal
