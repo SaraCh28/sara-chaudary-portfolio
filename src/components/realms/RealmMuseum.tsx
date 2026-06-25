@@ -48,7 +48,7 @@ const PROJECTS: Project[] = [
       "Delivered a fully interactive digital identity dashboard featuring latent-space taste analysis, temporal preference tracking, and vector-similarity search that discovers taste overlaps with 92% structural consistency.",
     learned:
       "Gained expertise in semantic embedding alignment, graph network visualization, Three.js performance tuning (instancing & raw shaders), and deploying Python ML APIs alongside standard web runtimes.",
-    github: "https://github.com",
+    github: "https://github.com/SaraCh28",
     accentColor: "#c5a880",
   },
   {
@@ -73,7 +73,7 @@ const PROJECTS: Project[] = [
       "Delivered a fluid, 60 FPS booking workflow with dynamic QR code tickets, geo-fenced map radius queries, and a beautiful premium event catalog UI.",
     learned:
       "Mastered building serverless microservices for data aggregation, state management patterns in Flutter (Riverpod), PostgreSQL RLS policies, and geo-spatial query optimization.",
-    github: "https://github.com",
+    github: "https://github.com/SaraCh28",
     accentColor: "#8a7152",
   },
   {
@@ -98,7 +98,7 @@ const PROJECTS: Project[] = [
       "Shipped a secure full-stack journaling environment passing SonarQube quality gate thresholds with 80%+ test coverage. Implemented clean git tracking (excluding node_modules/.env) and followed SOLID architecture guidelines.",
     learned:
       "Learned modular test suite design, async state management in React, database transaction cleanup, and effective use of SonarQube for code quality governance.",
-    github: "https://github.com",
+    github: "https://github.com/SaraCh28",
     accentColor: "#c5a880",
   },
   {
@@ -123,7 +123,7 @@ const PROJECTS: Project[] = [
       "Successfully deployed a fully functional rental portal with automatic invoice generation, real-time map clustering for nearby vehicles, and a checkout completion flow under 3 seconds.",
     learned:
       "Deepened knowledge of state scheduling systems, managing transactional safety in MongoDB, Mapbox API custom map styling, and Stripe checkout webhooks.",
-    github: "https://github.com",
+    github: "https://github.com/SaraCh28",
     accentColor: "#8a7152",
   },
   {
@@ -148,7 +148,7 @@ const PROJECTS: Project[] = [
       "Created a premium developer dashboard with real-time issue updates, visual velocity progress bars, and localized task checklist widgets.",
     learned:
       "Mastered working with OAuth integrations, asynchronous API polling structures, custom chart components resizing, and high-performance CSS Grid layouts.",
-    github: "https://github.com",
+    github: "https://github.com/SaraCh28",
     accentColor: "#c5a880",
   },
   {
@@ -173,7 +173,7 @@ const PROJECTS: Project[] = [
       "Developed an educational tool calculating average turnaround and waiting times instantly, showcasing comparative metrics tables for 5+ core scheduling algorithms.",
     learned:
       "Gained a deep, intuitive understanding of OS process states, priority queues, performance benchmarks calculation, and canvas animation frames.",
-    github: "https://github.com",
+    github: "https://github.com/SaraCh28",
     accentColor: "#8a7152",
   }
 ];

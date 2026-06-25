@@ -16,7 +16,6 @@ const REALM_NAMES = [
   "The Workshop",
   "The Library",
   "The Archive",
-  "Observatory",
   "The Portal",
 ];
 
@@ -80,14 +79,14 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             Sara Chaudary
           </span>
           <span className="font-display font-medium text-[8px] sm:text-[9px] tracking-[0.3em] text-luxury-muted uppercase">
-            Logic & Aesthetics
+            Software Engineer · AI & Product
           </span>
         </div>
 
         {/* Quick Social & Resume Links (Recruiter Requirements < 10s) */}
         <div className="flex items-center gap-4 sm:gap-6">
           <a
-            href="https://github.com/sarachaudary"
+            href="https://github.com/SaraCh28"
             target="_blank"
             rel="noopener noreferrer"
             className="text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
@@ -96,7 +95,7 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             <Github className="w-4 h-4 sm:w-5 sm:h-5" />
           </a>
           <a
-            href="https://linkedin.com/in/sara-chaudary"
+            href="https://www.linkedin.com/in/sara-chaudary-1337b7363/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
@@ -105,7 +104,7 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             <Linkedin className="w-4 h-4 sm:w-5 sm:h-5" />
           </a>
           <a
-            href="mailto:s.chaudary@live.com"
+            href="mailto:sarachaudary028@gmail.com"
             className="hidden sm:inline text-luxury-muted hover:text-luxury-gold transition-colors duration-300 p-1"
             title="Email"
           >
@@ -129,7 +128,7 @@ export default function HUD({ activeRealm, onNavigate }: HUDProps) {
             <span className="font-display font-bold text-[9px] tracking-[0.1em] border border-luxury-gold/30 px-2 py-1 rounded-sm text-luxury-gold">CV</span>
           </a>
           <button
-            onClick={() => onNavigate(8)}
+            onClick={() => onNavigate(7)}
             className="font-display font-semibold text-[10px] tracking-[0.2em] bg-luxury-gold hover:bg-luxury-gold-glow text-luxury-bg px-3 py-1.5 rounded-sm transition-all duration-300 shadow-lg shadow-luxury-gold/10"
           >
             HIRE

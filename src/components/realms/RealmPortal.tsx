@@ -15,20 +15,20 @@ const CONTACT_LINKS = [
   {
     icon: Mail,
     label: "Direct Mail",
-    value: "s.chaudary@live.com",
-    href: "mailto:s.chaudary@live.com",
+    value: "sarachaudary028@gmail.com",
+    href: "mailto:sarachaudary028@gmail.com",
   },
   {
     icon: Linkedin,
     label: "Professional Channel",
-    value: "linkedin.com/in/sara-chaudary",
-    href: "https://linkedin.com/in/sara-chaudary",
+    value: "linkedin.com/in/sara-chaudary-1337b7363",
+    href: "https://www.linkedin.com/in/sara-chaudary-1337b7363/",
   },
   {
     icon: Github,
     label: "Source Archives",
-    value: "github.com/sarachaudary",
-    href: "https://github.com",
+    value: "github.com/SaraCh28",
+    href: "https://github.com/SaraCh28",
   },
   {
     icon: FileText,
@@ -104,7 +104,7 @@ export default function RealmPortal() {
         className="mb-16 text-center md:text-left relative z-10"
       >
         <span className="font-serif italic text-2xl sm:text-3xl text-luxury-gold block mb-2">
-          Realm VIII
+          Realm VII
         </span>
         <h2 className="font-display font-medium text-4xl sm:text-5xl text-luxury-white tracking-widest uppercase">
           The Portal

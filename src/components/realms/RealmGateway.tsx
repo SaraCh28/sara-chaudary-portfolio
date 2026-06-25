@@ -123,7 +123,7 @@ export default function RealmGateway() {
           >
             {[
               { label: "Projects Shipped", value: "06" },
-              { label: "Realms to Explore", value: "09" },
+              { label: "Realms to Explore", value: "08" },
               { label: "Technologies", value: "15+" },
             ].map((stat) => (
               <div key={stat.label} className="flex flex-col items-start md:items-center">
@@ -149,10 +149,10 @@ export default function RealmGateway() {
           transition={{ duration: 1, delay: 2.4 }}
           className="mt-6 flex items-center justify-between"
         >
-          <span className="font-display text-[8px] tracking-[0.3em] text-luxury-muted/60 uppercase hidden sm:block">
+          <span className="font-display text-[8px] tracking-[0.3em] text-luxury-muted/100 uppercase hidden sm:block">
             THE SARA UNIVERSE · EST. 2026
           </span>
-          <span className="font-display text-[8px] tracking-[0.25em] text-luxury-muted/40 uppercase font-mono hidden md:block">
+          <span className="font-display text-[8px] tracking-[0.25em] text-luxury-muted/10 uppercase font-mono hidden md:block">
             48.8°N · 2.3°E · ORBITAL LAYER 01
           </span>
         </motion.div>

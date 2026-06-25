@@ -16,7 +16,6 @@ import RealmMuseum from "@/components/realms/RealmMuseum";
 import RealmWorkshop from "@/components/realms/RealmWorkshop";
 import RealmLibrary from "@/components/realms/RealmLibrary";
 import RealmArchive from "@/components/realms/RealmArchive";
-import RealmObservatory from "@/components/realms/RealmObservatory";
 import RealmPortal from "@/components/realms/RealmPortal";
 
 export default function Home() {
@@ -238,10 +237,6 @@ export default function Home() {
         </section>
 
         <section id="realm-7" className="min-h-screen w-full relative flex items-center justify-center">
-          <RealmObservatory />
-        </section>
-
-        <section id="realm-8" className="min-h-screen w-full relative flex items-center justify-center">
           <RealmPortal />
         </section>
       </div>
